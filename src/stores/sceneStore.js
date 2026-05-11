@@ -9,9 +9,15 @@ export const useSceneStore = defineStore('scene', () => {
     const camera = shallowRef(null)
     const controls = shallowRef(null)
 
+    // 移動先の目標値
+    const targetPosition = ref(null)
+    const targetLookAt = ref(null)
+
     return {
         isUserStrolling,
         camera,
         controls,
+        targetPosition,
+        targetLookAt,
     }
 })

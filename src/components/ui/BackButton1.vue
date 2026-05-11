@@ -1,6 +1,7 @@
 <script setup>
 import { useSceneStore } from '@/stores/sceneStore'
 import { Objects } from '@/data/objects'
+import * as THREE from 'three'
 
 const sceneStore = useSceneStore()
 
@@ -14,15 +15,13 @@ const handleBack = () => {
   const config = Objects.find(obj => obj.id === 1001)
   if (!config) return
 
-  // カメラ位置とターゲットをリセット
+  // 目標値をセットしてアニメーションを開始
   if (config.position) {
-    camera.position.set(...config.position)
+    sceneStore.targetPosition = new THREE.Vector3(...config.position)
   }
   if (config.target) {
-    controls.target.set(...config.target)
+    sceneStore.targetLookAt = new THREE.Vector3(...config.target)
   }
-  
-  controls.update()
 }
 </script>
 

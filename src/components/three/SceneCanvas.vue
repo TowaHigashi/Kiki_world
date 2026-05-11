@@ -10,6 +10,7 @@ import { useAnimationFrame } from '@/composables/useAnimationFrame'
 import { useOrbitControls } from '@/composables/useOrbitControls'
 import { useMouse } from '@/composables/useMouse'
 import { useInteractionManager } from '@/components/three/InteractionManager'
+import { useCameraController } from '@/components/three/CameraController'
 import { useSceneStore } from '@/stores/sceneStore'
 import { useStrollingDetection } from '@/composables/useStrollingDetection'
 
@@ -28,6 +29,7 @@ let animationFrame
 let mouseController
 let interactionManager
 let strollingDetection
+let cameraController
 
 onMounted(() => {
   const container = containerRef.value
@@ -47,6 +49,13 @@ onMounted(() => {
     renderer
   ).controls
   sceneStore.controls = controls // 追加（バックボタン1）
+  // camera controller
+  cameraController = useCameraController({
+    camera,
+    controls,
+    sceneStore
+  })
+
   // strolling detection
   strollingDetection = useStrollingDetection({
     cameraPosition: camera,
@@ -55,6 +64,9 @@ onMounted(() => {
   })
   // animation
   animationFrame = useAnimationFrame(() => {
+    // カメラ移動の更新
+    cameraController.update()
+
     controls.update()
 
     strollingDetection.update()
