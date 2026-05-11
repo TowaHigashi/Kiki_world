@@ -1,3 +1,2 @@
-# このRepositoryについて
-
-このリポジトリはドットインストールの「Vue.jsでTodo管理アプリを作ろう」で使うGitHub Codespaces用のテンプレートです。
+# Kiki_world
+記記の紹介Webサイト
