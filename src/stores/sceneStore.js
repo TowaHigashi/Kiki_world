@@ -1,0 +1,17 @@
+import { defineStore } from 'pinia'
+import { ref, shallowRef } from 'vue'
+
+export const useSceneStore = defineStore('scene', () => {
+    // ユーザーが散策中かどうかを管理するフラグ
+    const isUserStrolling = ref(false)
+
+    // カメラとコントロールのインスタンスを共有
+    const camera = shallowRef(null)
+    const controls = shallowRef(null)
+
+    return {
+        isUserStrolling,
+        camera,
+        controls,
+    }
+})

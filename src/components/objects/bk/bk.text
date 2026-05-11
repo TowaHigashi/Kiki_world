@@ -1,0 +1,37 @@
+<script setup>
+import { onMounted } from 'vue'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { Objects } from '@/data/objects.js'
+
+const props = defineProps({
+  scene: Object,
+})
+
+const MODEL_PATH = '/models/Object0-a.glb'
+
+onMounted(() => {
+  const loader = new GLTFLoader()
+
+  const objectData = Objects.find(obj => obj.path === MODEL_PATH)
+
+  loader.load(MODEL_PATH, (gltf) => {
+    const model = gltf.scene
+
+    if (objectData) {
+      // userDataを付与
+      model.userData = { ...objectData }
+      
+      if (objectData.position) {
+        model.position.set(...objectData.position)
+      }
+    } else {
+      model.position.set(0, 0, 0)
+    }
+
+    props.scene.add(model)
+  })
+})
+</script>
+
+<template>
+</template>

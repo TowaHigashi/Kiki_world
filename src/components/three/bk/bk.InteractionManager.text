@@ -1,0 +1,47 @@
+// クリック検知。raycasterでオブジェクトを判定して、userData.idを返す
+
+import { useRaycaster } from '@/composables/useRaycaster'
+
+export function useInteractionManager({
+    container,
+    scene,
+    camera,
+    mouse,
+}) {
+    const { cast } = useRaycaster()
+
+    const handleClick = () => {
+        const intersects = cast({
+            mouse,
+            camera,
+            objects: scene.children,
+        })
+
+        if (!intersects.length) return
+
+        const target = intersects[0].object
+
+        const id = target.userData?.id
+
+        console.log('clicked:', id)
+        // console.log(target.userData.name)
+
+        return id
+    }
+
+    container.addEventListener(
+        'click',
+        handleClick
+    )
+
+    const destroy = () => {
+        container.removeEventListener(
+            'click',
+            handleClick
+        )
+    }
+
+    return {
+        destroy,
+    }
+}
