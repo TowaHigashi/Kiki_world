@@ -1,5 +1,4 @@
 // カメラ移動の制御。targetPosition/targetLookAtへのスムーズな移動（lerp）を担当
-import * as THREE from 'three'
 
 export function useCameraController({
     camera,
