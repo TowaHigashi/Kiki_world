@@ -31,12 +31,12 @@ export const Objects = [
         name: '試しオブジェクト1',
         id: 2001,
         cameraFocusIn: {
-            position: [0, 0, 0],
-            target: [0, 0, 0],
+            position: '',
+            target: '',
         },
         cameraFocusOut: {
-            position: [0, 0, 0],
-            target: [0, 0, 0],
+            position: '',
+            target: '',
         }
     },
     {
@@ -50,8 +50,8 @@ export const Objects = [
         name: '試しオブジェクト2',
         id: 2002,
         cameraFocusIn: {
-            position: [0, 0, 0],
-            target: [0, 0, 0],
+            position: [-1.4, 1.8, 0.23],
+            target: [0, 0.7, 1.2],
         },
         cameraFocusOut: {
             position: [0, 0, 0],

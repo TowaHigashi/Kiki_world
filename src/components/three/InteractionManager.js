@@ -2,6 +2,9 @@
 
 import { useRaycaster }
     from '@/composables/useRaycaster'
+import { Objects } from '@/data/objects.js'
+import { useCameraController2 } from '@/components/three/CameraController2'
+import { useSceneStore } from '@/stores/sceneStore'
 
 export function useInteractionManager({
     container,
@@ -10,6 +13,8 @@ export function useInteractionManager({
     mouse,
 }) {
     const { cast } = useRaycaster()
+    const cameraController2 = useCameraController2()
+    const sceneStore = useSceneStore()
 
     let startX = 0
     let startY = 0
@@ -50,6 +55,15 @@ export function useInteractionManager({
         // drag中は無視
         if (isDragging) return
 
+        // 開発用：クリック時点でのカメラの座標と注視点をコンソールに出力
+        if (sceneStore.controls) {
+            const format = (arr) => arr.map(v => Number(v.toFixed(3)))
+            console.log('--- Current View ---')
+            console.log('position: ', format(camera.position.toArray()))
+            console.log('target:   ', format(sceneStore.controls.target.toArray()))
+            console.log('--------------------')
+        }
+
         const intersects = cast({
             mouse,
             camera,
@@ -62,9 +76,22 @@ export function useInteractionManager({
 
         const id = target.userData?.id
 
-        console.log('clicked:', id) // 現状コンソールに出すだけ
+        // idからオブジェクトデータを取得し、cameraFocusIn.positionとtargetを取り出す
+        const objectData = Objects.find(obj => obj.id === id)
+        const cameraFocusInPosition = objectData?.cameraFocusIn?.position || null
+        const cameraFocusInTarget = objectData?.cameraFocusIn?.target || null
 
-        return id
+        if (cameraFocusInPosition && cameraFocusInPosition !== '') {
+            console.log('clicked id:', id, 'moving to:', cameraFocusInPosition)
+
+            // オブジェクト1-6クリック時（cameraFocusIn.position!=null）、ameraController2を呼び出してカメラ移動を実行
+            cameraController2.moveCamera(cameraFocusInPosition, cameraFocusInTarget)
+
+            return { id, position: cameraFocusInPosition }
+        } else {
+            console.log('clicked id:', id)
+            return id
+        }
     }
 
     container.addEventListener(
