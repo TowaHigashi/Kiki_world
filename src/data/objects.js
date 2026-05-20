@@ -54,8 +54,8 @@ export const Objects = [
             target: [0, 0.7, 1.2],
         },
         cameraFocusOut: {
-            position: [0, 0, 0],
-            target: [0, 0, 0],
+            position: [-4.4, 4.1, -1.8],
+            target: [0, 0.7, 1.2],
         }
     },
 ]

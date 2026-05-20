@@ -10,7 +10,8 @@ import { useAnimationFrame } from '@/composables/useAnimationFrame'
 import { useOrbitControls } from '@/composables/useOrbitControls'
 import { useMouse } from '@/composables/useMouse'
 import { useInteractionManager } from '@/components/three/InteractionManager'
-import { useCameraController } from '@/components/three/CameraController'
+import { useCameraController2 } from '@/components/three/CameraController2'
+import { useCameraBlurrer } from '@/components/three/CameraBlurrer'
 import { useSceneStore } from '@/stores/sceneStore'
 import { useStrollingDetection } from '@/composables/useStrollingDetection'
 
@@ -30,6 +31,7 @@ let mouseController
 let interactionManager
 let strollingDetection
 let cameraController
+let cameraBlurrer
 
 onMounted(() => {
   const container = containerRef.value
@@ -50,11 +52,7 @@ onMounted(() => {
   ).controls
   sceneStore.controls = controls // 追加（バックボタン1）
   // camera controller
-  cameraController = useCameraController({
-    camera,
-    controls,
-    sceneStore
-  })
+  cameraController = useCameraController2()
 
   // strolling detection
   strollingDetection = useStrollingDetection({
@@ -83,6 +81,11 @@ onMounted(() => {
       camera,
       mouse: mouseController.mouse,
     })
+
+  cameraBlurrer = useCameraBlurrer({
+    container,
+    sceneStore,
+  })
 })
 
 onUnmounted(() => {
@@ -91,6 +94,8 @@ onUnmounted(() => {
   mouseController?.destroy()
 
   interactionManager?.destroy()
+  
+  cameraBlurrer?.destroy()
 })
 
 </script>

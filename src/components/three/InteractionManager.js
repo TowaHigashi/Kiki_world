@@ -1,7 +1,6 @@
-// クリック検知。raycasterでオブジェクトを判定して、userData.idを返す
+// クリック検知。raycasterでオブジェクトを判定する。
 
-import { useRaycaster }
-    from '@/composables/useRaycaster'
+import { useRaycaster } from '@/composables/useRaycaster'
 import { Objects } from '@/data/objects.js'
 import { useCameraController2 } from '@/components/three/CameraController2'
 import { useSceneStore } from '@/stores/sceneStore'
@@ -86,6 +85,14 @@ export function useInteractionManager({
 
             // オブジェクト1-6クリック時（cameraFocusIn.position!=null）、ameraController2を呼び出してカメラ移動を実行
             cameraController2.moveCamera(cameraFocusInPosition, cameraFocusInTarget)
+
+            // モーダル表示
+            sceneStore.isModalOpen = true
+            console.log('開発用ログ: isModalOpen を true にしました')
+
+            // どのオブジェクトをモーダル表示しているかを管理するフラグ
+            sceneStore.whichModalSelected = id
+            console.log('開発用ログ: whichModalSelected を', id, 'にしました')
 
             return { id, position: cameraFocusInPosition }
         } else {

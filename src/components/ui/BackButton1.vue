@@ -1,9 +1,17 @@
 <script setup>
+import { ref, watch } from 'vue'
 import { useSceneStore } from '@/stores/sceneStore'
 import { Objects } from '@/data/objects'
 import * as THREE from 'three'
 
 const sceneStore = useSceneStore()
+const isVisible = ref(false)
+
+// isUserStrollingの状態をそのまま表示フラグに同期させる
+// trueで表示、falseで非表示。さらにボタン押下時にも即座に非表示にする
+watch(() => sceneStore.isUserStrolling, (newVal) => {
+  isVisible.value = newVal
+})
 
 const handleBack = () => {
   const camera = sceneStore.camera
@@ -14,6 +22,9 @@ const handleBack = () => {
   // 初期位置データ (id: 1001) を取得
   const config = Objects.find(obj => obj.id === 1001)
   if (!config) return
+
+  // 押下時にボタンを非表示にする
+  isVisible.value = false
 
   // 目標値をセットしてアニメーションを開始
   if (config.position) {
@@ -28,7 +39,7 @@ const handleBack = () => {
 <template>
   <Transition name="fade">
     <button 
-      v-if="sceneStore.isUserStrolling" 
+      v-if="isVisible" 
       class="back-button" 
       @click="handleBack"
       aria-label="初期位置に戻る"
@@ -83,7 +94,7 @@ const handleBack = () => {
 /* フェードアニメーション */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .fade-enter-from,

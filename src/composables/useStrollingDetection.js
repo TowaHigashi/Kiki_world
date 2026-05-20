@@ -20,6 +20,14 @@ export function useStrollingDetection({
         )
 
     const update = () => {
+        // モーダルが開いている時は強制的に散策状態をfalseにして終了する
+        if (sceneStore.isModalOpen) {
+            if (sceneStore.isUserStrolling) {
+                sceneStore.isUserStrolling = false
+                console.log('開発用ログ: isUserStrolling を false にしました')
+            }
+            return
+        }
         const distance =
             cameraPosition.position.distanceTo(
                 initialPosition
@@ -34,7 +42,7 @@ export function useStrollingDetection({
         ) {
             sceneStore.isUserStrolling =
                 isStrolling
-            // console.log("isUserStrolling changed")
+            console.log(`開発用ログ: isUserStrolling を ${isStrolling} にしました`)
         }
     }
 

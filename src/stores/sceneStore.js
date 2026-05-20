@@ -5,6 +5,12 @@ export const useSceneStore = defineStore('scene', () => {
     // ユーザーが散策中かどうかを管理するフラグ
     const isUserStrolling = ref(false)
 
+    // モーダル表示中かどうかを管理するフラグ
+    const isModalOpen = ref(false)
+
+    // どのオブジェクトをモーダル表示しているかを管理するフラグ
+    const whichModalSelected = ref('')
+
     // カメラとコントロールのインスタンスを共有
     const camera = shallowRef(null)
     const controls = shallowRef(null)

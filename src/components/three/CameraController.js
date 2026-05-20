@@ -1,3 +1,5 @@
+// 廃止予定
+
 // カメラ移動の制御。targetPosition/targetLookAtへのスムーズな移動（lerp）を担当
 
 export function useCameraController({
