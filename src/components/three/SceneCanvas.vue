@@ -16,8 +16,13 @@ import { useSceneStore } from '@/stores/sceneStore'
 import { useStrollingDetection } from '@/composables/useStrollingDetection'
 import ObjectInfoPanel from '@/components/ui/ObjectInfoPanel.vue'
 
+
 import SceneObject from '@/components/objects/SceneObject.vue'
 import { Objects } from '@/data/objects'
+import Screen from '@/components/objects/screen.vue'
+
+
+
 
 const getObj = (id) => {
   return Objects.find(obj => obj.id === id)
@@ -115,22 +120,12 @@ onUnmounted(() => {
     <SceneObject :scene="scene" :object-data="getObj(2005)" />
     <SceneObject :scene="scene" :object-data="getObj(2006)" />
 
-<!-- 
-     -->
-
     <SceneObject :scene="scene" :object-data="getObj(2007)" />
     <SceneObject :scene="scene" :object-data="getObj(2101)" />
     <SceneObject :scene="scene" :object-data="getObj(2102)" />
     <SceneObject :scene="scene" :object-data="getObj(2103)" />
 
-    <!-- コンポーネント読み込み処理は最終的に以下に移管　※コード短縮のため -->
-    <!-- 
-    <SceneObject
-      v-for="objData in sceneObjects"
-      :key="objData.id"
-      :scene="scene"
-      :object-data="objData"
-    /> -->
+    <Screen :scene="scene" />
 
     <ObjectInfoPanel />
   </div>

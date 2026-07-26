@@ -11,6 +11,9 @@ export const useSceneStore = defineStore('scene', () => {
     // どのオブジェクトをモーダル表示しているかを管理するフラグ
     const whichModalSelected = ref('')
 
+    // screen.glb の動画が停止中かどうかを管理するフラグ
+    const isScreenVideoPaused = ref(true)
+
     // カメラとコントロールのインスタンスを共有
     const camera = shallowRef(null)
     const controls = shallowRef(null)
@@ -23,6 +26,7 @@ export const useSceneStore = defineStore('scene', () => {
         isUserStrolling,
         isModalOpen,
         whichModalSelected,
+        isScreenVideoPaused,
         camera,
         controls,
         targetPosition,

@@ -221,6 +221,24 @@ export const Objects = [
             target: '',
         }
     },
-
-
+    {
+        type: 'object',
+        fileName: 'screen.glb',
+        path: '/models/screen.glb',
+        videoPath: '/videos/screen.mp4',
+        position: [0.07, 0.8, 13],
+        rotation: [0, 0, 0],
+        scale: [0.2, 0.2, 0.2],
+        target: '',
+        name: '試しオブジェクト7',
+        id: 2007,
+        cameraFocusIn: {
+            position: [],
+            target: [],
+        },
+        cameraFocusOut: {
+            position: [],
+            target: []
+        }
+    }
 ]

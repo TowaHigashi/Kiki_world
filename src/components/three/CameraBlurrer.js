@@ -3,8 +3,11 @@ import { watch } from 'vue'
 export function useCameraBlurrer({ container, sceneStore }) {
     if (!container) return { destroy: () => { } }
 
+    const canvas = container.querySelector('canvas')
+    const targetElement = canvas || container
+
     // 少しずつ変化させるため、CSSのtransitionを設定
-    container.style.transition = 'filter 0.5s ease-in-out'
+    targetElement.style.transition = 'filter 0.5s ease-in-out'
 
     // sceneStore.isModalOpenの変更を監視
     const unwatch = watch(
@@ -12,10 +15,10 @@ export function useCameraBlurrer({ container, sceneStore }) {
         (isOpen) => {
             if (isOpen) {
                 // trueになったら：視界を少しグレーにする
-                container.style.filter = 'grayscale(0.8)'
+                targetElement.style.filter = 'grayscale(0.8)'
             } else {
                 // falseになったら：元に戻す
-                container.style.filter = 'grayscale(0)'
+                targetElement.style.filter = 'grayscale(0)'
             }
         },
         { immediate: true } // 初期状態も反映
@@ -24,9 +27,9 @@ export function useCameraBlurrer({ container, sceneStore }) {
     return {
         destroy: () => {
             unwatch()
-            if (container) {
-                container.style.filter = ''
-                container.style.transition = ''
+            if (targetElement) {
+                targetElement.style.filter = ''
+                targetElement.style.transition = ''
             }
         }
     }

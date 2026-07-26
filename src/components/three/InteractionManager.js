@@ -71,20 +71,45 @@ export function useInteractionManager({
 
         if (!intersects.length) return
 
-        const target = intersects[0].object
+        const targetIntersection = intersects.find(
+            (intersection) => !intersection.object.userData?.ignoreInteraction
+        )
+
+        if (!targetIntersection) return
+
+        const target = targetIntersection.object
 
         const id = target.userData?.id
+
+        if (Number(id) === 2007) {
+            sceneStore.isScreenVideoPaused = !sceneStore.isScreenVideoPaused
+            console.log('clicked id:', id, 'screen video paused:', sceneStore.isScreenVideoPaused)
+            return { id, isScreenVideoPaused: sceneStore.isScreenVideoPaused }
+        }
 
         // idからオブジェクトデータを取得し、cameraFocusIn.positionとtargetを取り出す
         const objectData = Objects.find(obj => obj.id === id)
         const cameraFocusInPosition = objectData?.cameraFocusIn?.position || null
         const cameraFocusInTarget = objectData?.cameraFocusIn?.target || null
 
-        if (cameraFocusInPosition && cameraFocusInPosition !== '') {
+        const hasCameraFocusIn =
+            Array.isArray(cameraFocusInPosition) &&
+            cameraFocusInPosition.length > 0 &&
+            Array.isArray(cameraFocusInTarget) &&
+            cameraFocusInTarget.length > 0
+
+        if (hasCameraFocusIn) {
             console.log('clicked id:', id, 'moving to:', cameraFocusInPosition)
 
             // オブジェクト1-6クリック時（cameraFocusIn.position!=null）、ameraController2を呼び出してカメラ移動を実行
             cameraController2.moveCamera(cameraFocusInPosition, cameraFocusInTarget)
+
+            // 2001はズームだけにしてモーダルは開かない
+            if (Number(id) === 2001) {
+                sceneStore.isModalOpen = false
+                sceneStore.whichModalSelected = null
+                return { id, position: cameraFocusInPosition }
+            }
 
             // モーダル表示
             sceneStore.isModalOpen = true
